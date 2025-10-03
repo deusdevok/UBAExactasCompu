@@ -1,0 +1,13 @@
+Ej 10 c (f3). Cual es el caso base correcto de los siguientes? 
+- f3 0 q = 0
+- f3 1 q = q + q^2
+
+Ej 11. No entiendo bien el uso de fromIntegral
+
+Ej 12. Se puede hacer directamente en una sola funcion, sin necesidad de crear otra funcion solo para restar 1?
+
+Ej 13. Casos base??
+
+Ej 17. Este problema lo resolvi con ayuda de google y Gemini. Entendi la idea, pero hay una forma mejor de hacerlo? O esta es la posta?
+
+Ej 19. No entiendo esSumaInicialDeKPrimos. Por que hacemos recursion con k+1? No hay que chequear que sea la suma de exactamente k primos?

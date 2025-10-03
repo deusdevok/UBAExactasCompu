@@ -1,0 +1,154 @@
+{-- Parcial de Haskell del primer cuatrimestre de 2025. --}
+
+{--
+* Ejercicio 1
+
+problema hayPrimosGemelos (d: Z,h: Z) : Bool {
+  requiere: {0 < d ≤ h}
+  asegura: {res = true <=> existen dos números p1 y p2 contenidos en el rango [d..h] tales que p1 y p2 son primos gemelos}
+}
+
+Aclaración: Se dice que p1 y p2 son primos gemelos si ambos son primos y además |p2-p1| = 2
+
+* NOTA: 1.55 / 2.00
+### Failure in: 3:hayPrimosGemelos rango incluye primos hnos
+Tema2-test-ej1.hs:20
+expected: True
+ but got: False
+
+### Failure in: 4:hayPrimosGemelos desde es uno de los primos hnos
+Tema2-test-ej1.hs:21
+expected: True
+ but got: False
+--}
+
+absoluto :: Integer -> Integer
+absoluto x
+    | x < 0     = -x
+    | otherwise =  x
+
+e_p_aux :: Integer -> Integer -> Bool
+e_p_aux x i
+    | x == i       = True
+    | mod x i == 0 = False
+    | otherwise    = e_p_aux x (i + 1)
+
+esPrimo :: Integer -> Bool
+esPrimo x = e_p_aux x 2
+
+sonPrimosGemelos :: Integer -> Integer -> Bool
+sonPrimosGemelos a b = absoluto (b - a) == 2 && esPrimo a && esPrimo b
+
+rangoGemelo :: Integer -> Integer -> Bool
+rangoGemelo a b
+    | a == b               = False
+    | sonPrimosGemelos a b = True
+    | otherwise            = rangoGemelo (a + 1) b
+
+hayPrimosGemelos :: Integer -> Integer -> Bool
+hayPrimosGemelos a b = rangoGemelo a b
+
+{--
+* Ejercicio 2
+
+Representaremos un día de cursada de cierta materia con una tupla String x String x Z x Z, donde:
+
+    La primera componente de la tupla contiene el nombre de una materia
+    La segunda componente de la tupla contiene el día de cursada (lunes, martes, etc)
+    La tercera componente de la tupla contiene el horario de inicio de la cursada de ese día
+    La cuarta componente de la tupla contiene el horario de fin de la cursada de ese día
+
+Se pide implementar materiasTurnoTarde, que dada una lista de cursadas devuelva aquellas materias que se cursan en el turno tarde (14 a 17hs)
+
+problema materiasTurnoTarde (s: seq⟨String x String x Z x Z⟩) :seq⟨String⟩ {
+  requiere: { s[i]1 es alguno de los siguientes valores: "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"}
+  requiere: { s[i]2 ≥ 8 para todo i tal que 0 ≤ i < |s|}
+  requiere: { s[i]3 ≤ 22 para todo i tal que 0 ≤ i < |s|}
+  requiere: { s[i]2 < s[i]3 para todo i tal que 0 ≤ i < |s|}
+  asegura: { res no tiene elementos repetidos}
+  asegura: { res contiene los nombre de todas las materias incluídas en s tales el horario de cursada de dichas materias se superpone (total o parcialmente) con el rango (14..17)}
+  asegura: { res contiene solamente los nombre las materias incluídas en s tales el horario de cursada de dichas materias se superpone (total o parcialmente) con el rango (14..17)}
+}
+
+* NOTA: 1.50/2.00
+### Failure in: 5:materiasTurnoTarde mmuchas TT
+Tema2-test-ej2.hs:39
+Expected a permutation of ["Algo1","Analisis"], but got ["Algo1","Algebra","Materia intensiva","Analisis"]
+
+### Failure in: 6:materiasTurnoTarde un poco de todo
+Tema2-test-ej2.hs:39
+Expected a permutation of ["Algo1","Analisis","Analisis"], but got ["Algo1","Algebra","Materia intensiva","Analisis"]
+--}
+
+esMateriaTurnoTarde :: (String, String, Integer, Integer) -> Bool
+esMateriaTurnoTarde (_, _, i, f) = (i >= 14 && i <= 17) && (f >= 14 && f <= 17)
+
+materiasTurnoTarde :: [(String, String, Integer, Integer)] -> [String]
+materiasTurnoTarde [] = []
+materiasTurnoTarde ( (n, d, i, f) : xs )
+    | esMateriaTurnoTarde (n, d, i, f) = n : materiasTurnoTarde xs
+    | otherwise                        =     materiasTurnoTarde xs
+
+{--
+* Ejercicio 3
+
+problema maximaSumaDeTresConsecutivos (s: seq⟨Z⟩) : Z {
+  requiere: { |s| ≥ 3}
+  asegura: { res es la suma de tres elementos que se encuentran en posiciones consecutivas de s }
+  asegura: {Para cualquier i en el rango 1 ≤ i < |s|-1, se cumple que s[i-1]+s[i]+s[i+1] ≤ res}
+}
+
+* NOTA: 2.00 / 2.00
+--}
+
+maximaSumaDeTresConsecutivos :: [Integer] -> Integer
+maximaSumaDeTresConsecutivos [] = 0
+maximaSumaDeTresConsecutivos [x, y, z] = x + y + z
+maximaSumaDeTresConsecutivos (x:y:z:xs)
+    | x + y + z > previo = x + y + z
+    | otherwise          = previo
+    where previo = maximaSumaDeTresConsecutivos (y:z:xs)
+
+{--
+* Ejercicio 4
+
+problema sumaIesimaColumna (matriz: seq⟨seq⟨Integer⟩⟩, col: Integer) : Integer⟩{
+  requiere: {Todos los elementos de la secuencia matriz tienen la misma longitud}
+  requiere: {|matriz| > 0}
+  requiere: {|matriz[0]| > 0}
+  requiere: {1 ≤ col ≤ |matriz[0]| }
+  asegura: {res es la sumatoria de los elementos matriz[i][col-1] para todo i tal que 0 ≤ i < |matriz| }
+}
+
+* NOTA: 2.50 / 2.50
+--}
+
+sacarElemento :: [Integer] -> Integer -> Integer
+sacarElemento (x:_ ) 0 = x
+sacarElemento (_:xs) i = sacarElemento xs (i - 1)
+
+sumaIesimaColumna :: [[Integer]] -> Integer -> Integer
+sumaIesimaColumna [    ] _ = 0
+sumaIesimaColumna (x:xs) i = sacarElemento x (i - 1) + sumaIesimaColumna xs i
+
+{--
+* Ejercicio 5
+
+Conteste marcando la opción correcta.
+[ ] Sean e1 y e2 dos especificaciones con la misma postcondición. Si la precondición de e1 es más débil que la de e2, entonces:
+[X] Para que un programa sea correcto respecto de e2, debe considerar mayor cantidad de valores de entrada que un programa que busca satisfacer e1.
+[ ] Para que un programa sea correcto respecto de e1, debe considerar mayor cantidad de valores de entrada que un programa que busca satisfacer e2.
+[ ] No es posible afirmar ninguna de las opciones sin conocer en detalle ambas precondiciones.
+
+* NOTA: 0.75/0.75
+
+* Ejercicio 6
+
+Conteste marcando la opción correcta.
+[ ] Dado un problema con parámetros x e y, cuya precondición es (x>0 ∨ esPar(y)):
+[ ] Todos los casos de test deben tener inputs que cumplan x>0 ∧ esPar(y)
+[X] Independientemente de la precondición, debo testear todas las combinaciones de valores x e y
+[ ] No tiene sentido tener un caso de test con x=0, y=1
+
+* NOTA: 0.75/0.75
+--}
