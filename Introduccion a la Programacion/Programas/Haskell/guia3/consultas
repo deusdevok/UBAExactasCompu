@@ -1,8 +1,0 @@
-Cual es la diferencia entre Int e Integer? Por lo que vi online, Int es "bounded", lo cual usaria menos memoria/recursos? Cual deberiamos usar en la practica nosotros?
-
-Ejercicio 2-g: sumaDistintos. No me queda claro el enunciado. Al parecer hay ambiguedad en la especificacion. Creo que esto fue hablado y esta en las slides de la practica.
-
-En Haskell, como trabajo las precondiciones, o los "requiere"? Dicho de otra forma, como valido la entrada del usuario? Hace falta hacerlo? O es algo que nosotros suponemos al dar la especificacion por escrito?
-
-Ejercicio 4 e. Preguntar si esta bien como lo implemente, con las funciones auxiliares. O quizas haya una forma mas prolija.
-Ejercicio 4 g y h. Como hago para escribir la especificacion (los tipos), si no se de que tipo son las componentes? Directamente lo dejo asi como esta?

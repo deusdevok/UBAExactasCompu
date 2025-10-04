@@ -1,9 +1,0 @@
-Ej 1: Para calcular el reverso de una lista, hay otra forma mejor de como lo hice? Vi que se puede usar el operador ++, pero no se si es la idea
-
-Ej 2: 
-eliminarRepetidos no mantiene el orden. No importa?
-mismosElementos. No se como hacer una recursion chequeando en las dos listas al mismo tiempo. Use una func auxiliar (listaEnOtraLista).
-
-Ej 8: La duda general es si al usar listas de listas (matrices) hace falta siempre usar una funcion auxiliar para trabajar la lista interior. O hay una forma mejor/mas prolija de hacer estos ejercicios?
-
-Testing: No estoy pudiendo importar/exportar modulos. Lo que quisiera es armar un archivo aparte para correr todos mis test, posiblemente de todos mis archivos separados. Por ahora lo que hice fue armar los test en el mismo archivo (ver, por ejemplo, ej7.hs)
