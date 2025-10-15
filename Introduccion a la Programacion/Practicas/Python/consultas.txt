@@ -1,0 +1,48 @@
+Cuando en una especificacion ponen algo como s: seq<Char>, eso seria un string? O una lista de "char" (string de longitud 1)? Es decir, puede ser una de estas dos:
+- "hola"
+- ["h","o","l","a"]
+
+--------------------------------------
+
+En Python, nos dijeron que para el TP van a aceptar un unico return por cada funcion. Supongamos que tengo algo como esto:
+
+def es_palindroma(s: str) -> bool:
+    palindroma: bool = True
+    for i in range(len(s)//2):
+        if s[i] != s[len(s)-i-1]:
+            return False
+        
+    return True
+
+De esta forma, corto antes con el return False interno. Pero, si quisiera forzosamente tener un solo return, podria hacer esto:
+
+def es_palindroma(s: str) -> bool:
+    palindroma: bool = True
+    for i in range(len(s)//2):
+        if s[i] != s[len(s)-i-1]:
+            palindroma = False
+        
+    return palindroma
+
+A mi manera de verlo, esto es "mas feo", pero me veo forzado a hacerlo asi. Esta bien? Digamos, siempre puedo hacer esto: creo una nueva variable booleana, y voy jugando con eso, para al final retornar esa variable.
+
+--------------------------
+
+Con respecto a especificacion, cuando un parametro dice "out", cual es la diferencia con hacer eso y ponerlo como salida? Por ejemplo:
+
+problema pertenece a cada uno version 1 (in s:seq⟨seq⟨Z⟩⟩, in e:Z, out res: seq⟨Bool⟩)
+
+O:
+
+problema pertenece a cada uno version 1 (in s:seq⟨seq⟨Z⟩⟩, in e:Z): seq⟨Bool⟩
+
+Entiendo que la diferencia es que en el primer caso, no se devuelve, mientras que en el segundo si (return res).
+
+----------------------------
+
+* Para contestar esta pregunta, ver slide teorica 7, slides 31 y 32 *
+
+No entiendo la diferencia entre pertenece_a_cada_uno_version_1 y la version_2. Cambia el asegura, con la longitud del resultado, pero la implementacion no veo que cambie nada. Creo que en uno tengo que forzar a que la longitud de s y res sea la misma. Ver mi solucion.
+
+Que significa que un parametro de entrada en una funcion, este definido como "out"? Creo que en este caso es un parametro que se modifica, aunque no importe internamente. Y esto tampoco se retorna.
+    
