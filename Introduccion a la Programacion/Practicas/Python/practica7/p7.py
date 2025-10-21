@@ -68,6 +68,13 @@ def ordenados(s: list[int]) -> bool:
     
     return ordenados
 
+def ordenados_2(s):
+    i = 0
+    while i < len(s)-1 and s[i] < s[i+1]:
+        i += 1
+
+    return i >= len(s) - 1
+
 def pos_maximo(s: list[int]) -> int:
     if len(s) == 0:
         return -1
@@ -311,8 +318,10 @@ def es_matriz(s: list[list[int]]) -> bool:
 
 def filas_ordenadas(m: list[list[int]], res: list[bool]):
     res.clear()
-    for i in range(len(m)):
-        res.append(ordenados(m[i]))
+    # for i in range(len(m)):
+    #     res.append(ordenados(m[i]))
+    for fila in m:
+        res.append(ordenados(fila))
 
 def columna(m: list[list[int]], c: int) -> list[int]:
     columna: list[int] = []
@@ -418,5 +427,95 @@ def exponenciacion_matriz(d: int, p: int) -> list[list[float]]:
 
     return res
 
-a = exponenciacion_matriz(200,3)
-print(a)
+# a = exponenciacion_matriz(200,3)
+# print(a)
+
+## Ejercicio 7
+
+def nombres_estudiantes() -> list[str]:
+    estudiantes = []
+    instruccion = input("Ingrese un nombre de estudiante. Para salir, ingrese 'listo' o presione Enter: ")
+    while instruccion != "listo" and instruccion != "":
+        estudiantes.append(instruccion)
+        instruccion = input("Ingrese un nombre de estudiante. Para salir, ingrese 'listo' o presione Enter: ")
+
+    return estudiantes
+
+def historial_monedero_electronico() -> list[(str, float)]:
+    historial = []
+    instruccion = input("Ingrese una opcion: 'C' para cargar creditos, 'D' para descontar, 'X' para salir: ")
+    while instruccion != 'X':
+        monto = input("Ingrese el monto: ")
+        historial.append((instruccion, monto))
+        instruccion = input("Ingrese una opcion: 'C' para cargar creditos, 'D' para descontar, 'X' para salir: ")
+
+    return historial
+
+def siete_y_medio():
+    import random
+    total: int = 0
+    lista_de_cartas: list[str] = []
+    cartas_disponibles = (0,1,2,3,4,5,6,7,10,11,12)
+    carta = random.choice(cartas_disponibles)
+    lista_de_cartas.append(carta)
+    print("Su carta es:", carta)
+    if carta in (10,11,12):
+        total += 0.5
+    else:
+        total += carta
+
+    seleccion: str = "C" # Primer movimiento es tomar carta
+
+    while seleccion != "P" and total <= 7.5:
+        print("Su puntaje actual es de", total)
+        print()
+        seleccion = input("Desea plantarse (P)? O quiere tomar otra carta (C)? ")
+        if seleccion == "C":
+            carta = random.choice(cartas_disponibles)
+            lista_de_cartas.append(carta)
+            print("Su carta es:", carta)
+            if carta in (10,11,12):
+                total += 0.5
+            else:
+                total += carta
+        else:
+            print("Seleccion incorrecta. Vuelva a intentar...\n")
+        
+
+    print("\nSu puntaje es de", total)
+    if total > 7.5:
+        print("\nPerdio.")
+    else:
+        print("\nGano!")
+
+    print("\nSu historial de cartas:", lista_de_cartas)
+            
+
+def contiene_minuscula(s: str):
+    for c in s:
+        if "a" <= c <= "z":
+            return True
+    return False
+
+def contiene_mayuscula(s: str):
+    for c in s:
+        if "A" <= c <= "Z":
+            return True
+    return False
+
+def contiene_digito(s: str):
+    for c in s:
+        if "0" <= c <= "9":
+            return True
+    return False
+
+def fortaleza_contrasenia(contrasenia: str) -> str:
+    res: str
+    if len(contrasenia) < 5:
+        res = "ROJA"
+    elif len(contrasenia) > 8 and contiene_minuscula(contrasenia) and contiene_mayuscula(contrasenia) and contiene_digito(contrasenia):
+        res = "VERDE"
+    else:
+        res = "AMARILLA"
+
+    return res

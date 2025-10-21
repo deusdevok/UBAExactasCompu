@@ -8,6 +8,7 @@ from p7 import (
     maximo,
     minimo,
     ordenados,
+    ordenados_2,
     pos_maximo,
     pos_minimo,
     long_mayorASiete,
@@ -33,6 +34,7 @@ from p7 import (
     columnas_ordenadas,
     transponer,
     quien_gana_tateti,
+    fortaleza_contrasenia,
 )
 
 # Ejercicio 1
@@ -110,6 +112,18 @@ class test_ordenados(unittest.TestCase):
         self.assertFalse(ordenados([6,5,8,9,11]))
 
     def test_ordenados_lista_ordenada(self):
+        self.assertTrue([1,2,3,3,4,5,8,14,14,222])
+
+    def test_ordenados_lista_vacia(self):
+        self.assertTrue(ordenados_2([]))
+
+    def test_ordenados_2_lista_con_un_elemento(self):
+        self.assertTrue(ordenados_2([5]))
+
+    def test_ordenados_2_lista_desordenada(self):
+        self.assertFalse(ordenados_2([6,5,8,9,11]))
+
+    def test_ordenados_2_lista_ordenada(self):
         self.assertTrue([1,2,3,3,4,5,8,14,14,222])
 
 class test_pos_maximo(unittest.TestCase):
@@ -429,6 +443,16 @@ class TestTaTeTi(unittest.TestCase):
             ["X","X","O"],
         ]
         self.assertEqual(quien_gana_tateti(m), 2)
+
+class TestContrasenia(unittest.TestCase):
+    def test_pass_roja(self):
+        self.assertEqual(fortaleza_contrasenia("hola"), "ROJA")
+
+    def test_pass_roja(self):
+        self.assertEqual(fortaleza_contrasenia("holAquEa5sesv0s"), "VERDE")
+
+    def test_pass_roja(self):
+        self.assertEqual(fortaleza_contrasenia("holaqueaseS"), "AMARILLA")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
