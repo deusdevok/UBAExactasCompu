@@ -20,6 +20,34 @@
 # asegura: {Todos los elementos de res están en codigos_barra}
 # }
 
+def filtrar_codigos_primos_carlos(codigos_barra: list[int]) -> list[int]:
+    res: list[int] = []
+    for num in codigos_barra:
+        if es_primo_carlos(ultimos_tres_digitos_carlos(num)):
+            res.append(num)
+
+    return res
+
+def ultimos_tres_digitos_carlos(n: int) -> int:
+    res: int = n % 1000
+    return res
+
+def es_primo_carlos(n: int) -> bool:
+    res: bool = True
+    for i in range(2, n):
+        if n%i == 0:
+            res = False
+
+    return res
+
+# print(ultimos_tres_digitos_carlos(42653941))
+# print(es_primo_carlos(7))
+# print(filtrar_codigos_primos_carlos([471873002, 8613984814003, 481934, 8937103, 487194100, 4147017409107]))
+
+
+
+
+
 def divisores(numero: int) -> list[int]: # hago una funcion que me devuelva una lista con los divisores de un numero
     lista_divisores: list[int] = []
     numero_rango: int = numero + 1
@@ -55,10 +83,10 @@ def filtrar_codigos_primos(codigos_barra: list[int]) -> list[int]:
             lista_primos.append(numero)
     return lista_primos
 
-c1 = [11111002, 214013, 849032, 38491005]
-print(filtrar_codigos_primos(c1))
-c2 = [101, 38435028, 4742019, 95472986]
-print(filtrar_codigos_primos(c2))
+# c1 = [11111002, 214013, 849032, 38491005]
+# print(filtrar_codigos_primos(c1))
+# c2 = [101, 38435028, 4742019, 95472986]
+# print(filtrar_codigos_primos(c2))
 
 #--------------------------------------------------------------------------------
 
@@ -82,6 +110,34 @@ print(filtrar_codigos_primos(c2))
 # asegura: {El valor en res de un producto es una tupla de cantidades. Su primer elemento es la menor 
 # cantidad de ese producto en stock_cambios y como segundo valor el mayor}
 # }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def stock_productos(stock_cambios: list[(str, int)]) -> dict[str,(int, int)]:
     extremos: dict[str,(int, int)] = {} # creo un diccionario vacio

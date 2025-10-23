@@ -63,6 +63,37 @@ def todos_consecutivos(s: list[int]) -> bool:
 #   asegura: { res[i] es igual a la máxima cantidad de respuestas correctas que Ana podría haber respondido en el i-ésimo exámen resuelto en examenes, para 0 <= i < cantidad de elementos de examenes }
 # }
 
+from queue import Queue as Cola
+
+def mejor_resultado_de_ana(examenes: Cola[list[bool]]) -> list[int]:
+    res: list[int] = []
+    while not examenes.empty():
+        examen = examenes.get()
+        res.append(mejor_resultado(examen))
+
+    return res
+
+def mejor_resultado(examen: list[bool]) -> int:
+    # Del total de resultados en examen, la mitad deberia ser True, y la otra mitad False
+    cantidad_true = 0
+    for resultado in examen:
+        cantidad_true += uno_si_cero_si_no(resultado)
+        # cantidad_true += resultado
+
+    res = len(examen) - abs(cantidad_true - (len(examen) // 2))
+
+    return res
+
+def uno_si_cero_si_no(cond: bool) -> int:
+    return 1 if cond else 0
+
+examenes: Cola = Cola()
+examenes.put([True, True, False, False]) # 4 (todas)
+examenes.put([True, False, False, False]) # 3
+examenes.put([True, True, True, False]) # 3 (una menos)
+examenes.put([True, True, True, True]) # 2 (la mitad del total)
+
+print(mejor_resultado_de_ana(examenes))
 
 
 # ----------------------------------------------------
@@ -161,9 +192,9 @@ def pertenece(s: str, c: str) -> bool:
 
     return res
 
-print(cantidad_vocales("hola"))
-print(extraer_palabras("   hola   como estas      "))
-print(palabras_por_vocales("   hola   como estas    cosararaesteejercicio no?  "))
+# print(cantidad_vocales("hola"))
+# print(extraer_palabras("   hola   como estas      "))
+# print(palabras_por_vocales("   hola   como estas    cosararaesteejercicio no?  "))
 
 # ----------------------------------------------------
 

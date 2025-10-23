@@ -1,6 +1,0 @@
-Cual es la forma correcta de poner el path para abrir archivos? Solo puedo usar el modulo os? No podemos usar pathlib por ejemplo? Tengo esto:
-
-archivo_nombre: str = "himno_argentino.txt"
-script_path = os.path.abspath(__file__)
-cwd = os.path.dirname(script_path)
-archivo_path = os.path.join(cwd, archivo_nombre)

@@ -46,3 +46,24 @@ No entiendo la diferencia entre pertenece_a_cada_uno_version_1 y la version_2. C
 
 Que significa que un parametro de entrada en una funcion, este definido como "out"? Creo que en este caso es un parametro que se modifica, aunque no importe internamente. Y esto tampoco se retorna.
     
+
+----------------------------
+
+Respecto de la funcion uno_si_cero_si_no:
+
+def uno_si_cero_si_no(cond: bool) -> int:
+    return 1 if cond else 0
+
+Esto esta bueno al querer sumar 1 si se cumple una condicion, por ejemplo (resultado es un booleano):
+
+for resultado in examen:
+    cantidad_true += uno_si_cero_si_no(resultado)
+
+Lo que me di cuenta es que los booleanos se pueden sumar como si fueran enteros. Podemos hacer algo asi:
+
+for resultado in examen:
+    cantidad_true += resultado
+
+Esto funciona de igual manera (probar en la consola de Python hacer True+False+True y ver que da 2).
+
+Podemos usar esto? O es muy trucho?

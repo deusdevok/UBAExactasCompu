@@ -25,12 +25,56 @@
 #  asegura: {Si el elemento aparece al menos n veces en la secuencia, s[res] = elem }
 #  asegura: {Si el elemento aparece al menos n veces en la secuencia, elem aparece n-1 
 #  veces en s entre las posiciones 0 y res-1 }
-}
+# }
 #Por ejemplo, dadas
 #s = [-1, 1, 1, 5, -7, 1, 3]
 #n = 2
 #elem = 1
 #se debería devolver res = 2
+
+
+def ind_nesima_aparicion_carlos(s: list[int], n: int, elem: int) -> int:
+    veces_que_aparece: int = 0
+    ind_nesima: int = -1
+    for i in range(len(s)):
+        if s[i] == elem:
+            veces_que_aparece += 1
+            if veces_que_aparece == n:
+                ind_nesima = i
+
+    return ind_nesima
+
+
+
+# s = [-1,1,1,5,-7,1,3]
+# n = 2
+# elem = 1
+# print(ind_nesima_aparicion_carlos(s,n,elem)) # 2
+
+# s = [-1,1,1,5,-7,1,3]
+# n = 1
+# elem = 14
+# print(ind_nesima_aparicion_carlos(s,n,elem)) # -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #primero defino una función que me dice cuántas veces aparece un elemento s.
@@ -85,6 +129,22 @@ def ind_nesima_aparicion(s: list, n: int, elem: int) -> int:
 #s1 = [1, 3, 0, 1]
 #s2 = [4, 0, 2, 3]
 #se debería devolver res = [1, 4, 3, 0, 0, 2, 1, 3]
+
+
+def mezclar_carlos(s1: list[int], s2: list[int]) -> list[int]:
+    res: list[int] = []
+    for i in range(len(s1)):
+        res.append(s1[i])
+        res.append(s2[i])
+
+    return res
+
+# s1 = [1,3,0,1]
+# s2 = [4,0,2,3]
+# print(mezclar_carlos(s1,s2)) # [1, 4, 3, 0, 0, 2, 1, 3]
+
+
+
 
 
 #encaro el problema de una sin funciones auxiliares. defino un
@@ -153,6 +213,47 @@ def mezclar(s1: list, s2: list) -> list:
 #                                          "luck": [0,0,0,2]}
 
 
+def frecuencia_posiciones_por_caballo_carlos(caballos: list[str], carreras: dict[str, list[str]]) -> dict[str, list[int]]:
+    res: dict[str, list[int]] = {}
+
+    # Inicializo cada caballo con ceros
+    for caballo in caballos:
+        res[caballo] = [0]*len(caballos)
+
+    for ganadores in carreras.values():
+        actualizar_resultado(res, ganadores)
+
+    return res
+
+def actualizar_resultado(res: dict[str, list[int]], ganadores: list[str]):
+    for i in range(len(ganadores)):
+        res[ganadores[i]][i] += 1
+
+# caballos= ["linda", "petisa", "mister", "luck" ]
+# carreras= {"carrera1":["linda", "petisa", "mister", "luck"],
+#                  "carrera2":["petisa", "mister", "linda", "luck"]}
+# print(frecuencia_posiciones_por_caballo_carlos(caballos, carreras))
+#se debería devolver res = {"petisa": [1,1,0,0],
+#                                          "mister": [0,1,1,0],
+#                                          "linda": [1,0,1,0],
+#                                          "luck": [0,0,0,2]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #primero defino una función que me dice en qué posición salio un
 #caballo determinado en una carrera.
 
@@ -206,6 +307,44 @@ def frecuencia_posiciones_por_caballo(caballos: list, carreras: dict) -> dict:
 #Por ejemplo, dada la matriz
 #m = [[1,2,2,1],[-5,6,6,-5],[0,1,1,0]]
 #se debería devolver res = true
+
+def matriz_capicua_carlos(m: list[list[int]]) -> bool:
+    res: bool = True
+    for fila in m:
+        if not es_capicua(fila):
+            res = False
+
+    return res
+
+def es_capicua(f: list[int]) -> bool:
+    res: bool = True
+    for i in range(len(f)//2):
+        if f[i] != f[len(f) - i - 1]:
+            res = False
+
+    return res
+
+# print(matriz_capicua_carlos([[1,2,2,1],[-5,6,6,-5],[0,1,1,0]])) # True
+# print(matriz_capicua_carlos([[1,2,2,1],[-5,6,2,-5],[0,1,1,0]])) # False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

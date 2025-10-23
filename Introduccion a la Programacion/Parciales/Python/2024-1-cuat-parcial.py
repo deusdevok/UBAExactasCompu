@@ -16,6 +16,52 @@ problema alarma_epidemiologica (registros: seq⟨ZxString⟩, infecciosas: seq�
   asegura: {Para cada enfermedad perteneciente a infecciosas, si el porcentaje de e pacientes que se atendieron por esa enfermedad sobre el total de registros es menor que el umbral, entonces enfermedad no aparece en res}
 }
 """
+
+def alarma_epidemiologica_carlos(registros: list[tuple[int, str]], infecciosas: list[str], umbral: float) -> dict[str, float]:
+  res: dict[str, float] = {}
+  for enfermedad in infecciosas:
+    p = calcular_porcentaje(registros, enfermedad)
+    if p >= umbral:
+      res[enfermedad] = p
+
+  return res
+
+def calcular_porcentaje(registros, enfermedad):
+  total = len(registros)
+  cant = 0
+  for i in range(total):
+    if registros[i][1] == enfermedad:
+      cant += 1
+
+  if total == 0:
+    p = 0
+  else:
+    p = cant/total
+
+  return p
+
+# registros = [
+#   (1, "viruela"),
+#   (2, "viruela"),
+#   (3, "covid19"),
+#   (4, "covid19"),
+#   (5, "covid19"),
+#   (6, "viruela"),
+#   (7, "covid19"),
+#   (8, "salmonela"),
+#   (9, "covid19"),
+# ]
+# registros = []
+
+# infecciosas = ["viruela", "covid19", "salmonela", "otro"]
+# infecciosas = []
+
+# umbral = 0.5
+
+# print(alarma_epidemiologica_carlos(registros, infecciosas, umbral))
+
+
+
 def porcentaje_infeccion (enfermadad: str, resgistro:list[tuple[int, str]]) -> float: 
   cantidad_personas : int = 0
   for infeccion in resgistro: 
@@ -55,6 +101,32 @@ problema orden_de_atencion ( in urgentes: cola⟨Z⟩, in postergables: cola⟨Z
   asegura: {Para todo c1 y c2 de tipo "postergable" pertenecientes a postergables si c1 aparece antes que c2 en postergables entonces c1 aparece antes que c2 en res}
 """
 
+def orden_de_atencion(urgentes: Cola[int], postergables: Cola[int]) -> Cola[int]:
+  urgentes_aux = Cola()
+  postergables_aux = Cola()
+
+  res: Cola[int] = Cola()
+
+  while not urgentes.empty():
+    elem_en_urgente = urgentes.get()
+    res.put(elem_en_urgente)
+    urgentes_aux.put(elem_en_urgente)
+
+    elem_en_postergable = postergables.get()
+    res.put(elem_en_postergable)
+    postergables_aux.put(elem_en_postergable)
+
+  # Reconstruyo colas originales
+  while not urgentes_aux.empty():
+    urgentes.put(urgentes_aux.get())
+    postergables.put(postergables_aux.get())
+
+  return res
+
+
+
+
+
 def orden_de_atencion (urgentes: Cola[int], postrgables: Cola[int]) -> Cola[int]:
   urgentes_copia = urgentes
   postrgables_copia = postrgables
@@ -86,6 +158,33 @@ problema nivel_de_ocupacion(camas_por_piso:seq⟨seq⟨Bool⟩⟩) : seq⟨R⟩ 
   asegura: {Para todo 0<= i < |res| se cumple que res[i] es igual a la cantidad de camas ocupadas del piso i dividido el total de camas del piso i)}
 }
 """
+
+def nivel_de_ocupacion_carlos(camas_por_piso: list[list[bool]]) -> list[float]:
+  res: list[float] = []
+  for piso in camas_por_piso:
+    p = calcular_porcentaje_ocupacion_en_piso(piso)
+    res.append(p)
+
+  return res
+
+def calcular_porcentaje_ocupacion_en_piso(piso: list[bool]) -> float:
+  total: int = len(piso)
+  contador: int = 0
+  for cama in piso:
+    if cama:
+      contador += 1
+
+  porcentaje: float
+  if total > 0:
+    porcentaje = contador / total
+  else:
+    porcentaje = 0
+
+  return porcentaje
+
+# print(nivel_de_ocupacion_carlos([[True, False, True], [True, True, True], [False, False, False]])) # [0.67, 1, 0]
+
+
 def nivel_de_ocupacion(camas_por_piso:list[list[bool]]) -> list[float]:
   res : list[float] = []
   contador : int = 0
@@ -112,6 +211,42 @@ problema empleados_del_mes(horas:dicc⟨Z,seq⟨Z⟩⟩) : seq⟨Z⟩ {
 
 }
 """
+
+def empleados_del_mes_carlos(horas: dict[int, list[int]]) -> list[int]:
+  # res: list[int] = []
+  maximo_hasta_ahora: int = 0
+  maximos_id: list[int] = []
+  for id, horas_por_dia in horas.items():
+    s = suma_lista(horas_por_dia)
+    if s > maximo_hasta_ahora:
+      maximo_hasta_ahora = s
+      maximos_id = [id]
+    elif s == maximo_hasta_ahora:
+      maximos_id.append(id)
+
+  return maximos_id
+
+def suma_lista(s: list[int]) -> int:
+  total: int = 0
+  for n in s:
+    total += n
+
+  return total
+
+# horas = {
+#   1: [1],
+#   2: [5,7,9,14,15],
+#   3: [1,2,3],
+#   4: [4,4,4,4],
+#   5: [1,1],
+#   6: [9,7,5,14,15],
+#   7: [1,1,1,2],
+#   8: [50],
+# }
+
+# print(empleados_del_mes_carlos(horas)) # [2, 6, 8]
+
+
 def suma_total (s:list) -> int: 
   suma : int = 0
   for num in s : 
