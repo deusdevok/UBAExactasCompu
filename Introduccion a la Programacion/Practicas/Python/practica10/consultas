@@ -1,0 +1,4 @@
+Para obtener los ultimos 3 digitos de un entero, esta bien hacerlo asi? O hay que pensarlo de otra forma?
+
+def ultimos_tres_digitos(n: int) -> int:
+    return n%1000
