@@ -1,3 +1,4 @@
+from queue import Queue as Cola
 from typing import TypeVar
 T = TypeVar('T')
 
@@ -181,3 +182,201 @@ def promedio_salas(salas: list[int]) -> float:
         res = 0.0
 
     return res
+
+## Ejercicio 6
+
+def tiempo_mas_rapido(tiempos_salas: list[int]) -> int:
+    indice_mayor: int = 0
+    mayor_tiempo: int = tiempos_salas[0]
+    indice_actual = indice_mayor + 1
+    while indice_actual < len(tiempos_salas):
+        if tiempos_salas[indice_actual] > mayor_tiempo:
+            mayor_tiempo = tiempos_salas[indice_actual]
+            indice_mayor = indice_actual
+
+        indice_actual += 1
+
+    return indice_mayor
+
+## Ejercicio 7
+
+def racha_mas_larga(tiempos: list[int]) -> tuple[int, int]:
+    racha_mayor: tuple[int, int] = (0,-1)
+    
+    for i in range(len(tiempos)):
+        subsecuencia = buscar_racha_desde(tiempos, i)
+        if len(subsecuencia) > racha_mayor[1] - racha_mayor[0] + 1:
+            racha_mayor = (i, len(subsecuencia) + i - 1)
+
+    return racha_mayor
+
+
+def condicion_salida(tiempo: int) -> bool:
+    return 0 < tiempo < 61
+
+def buscar_racha_desde(lista: list[int], indice: int) -> list[int]:
+    res: list[int] = []
+    while indice < len(lista) and condicion_salida(lista[indice]):
+        res.append(lista[indice])
+        indice += 1
+
+    return res
+
+## Ejercicio 8
+
+def escape_en_solitario(amigos_por_salas: list[list[int]]) -> list[int]:
+    res: list[int] = []
+    for i in range(len(amigos_por_salas)):
+        if condicion_solitario(amigos_por_salas[i]):
+            res.append(i)
+
+    return res
+
+def condicion_solitario(sala: list[int]) -> bool:
+    res: bool = False
+    if sala[0] == 0 and sala[1] == 0 and sala[3] == 0 and sala[2] > 0:
+        res = True
+
+    return res
+
+## Ejercicio 9
+
+def torneo_de_gallinas(estrategias: dict[str, str]) -> dict[str, int]:
+    res: dict[str, int] = {}
+    # Inicializo cada jugador con 0 puntos
+    for jugador in estrategias.keys():
+        res[jugador] = 0
+
+    partidos: list[tuple[str, str]] = generar_parejas_unicas(list(estrategias.keys()))
+
+    opciones = ["me desvio siempre", "me la banco y no me desvio"]
+    for partido in partidos:
+        if estrategias[partido[0]] == estrategias[partido[1]]:
+            if estrategias[partido[0]] == opciones[0]:
+                res[partido[0]] -= 10
+                res[partido[1]] -= 10
+            else:
+                res[partido[0]] -= 5
+                res[partido[1]] -= 5
+
+        else:
+            if estrategias[partido[0]] == opciones[0]:
+                res[partido[0]] -= 15
+                res[partido[1]] += 10
+            else:
+                res[partido[0]] += 10
+                res[partido[1]] -= 15
+
+    return res
+
+
+def generar_parejas_unicas(lista: list[str]) -> list[tuple[str, str]]:
+    res: list[tuple[str, str]] = []
+    for i in range(len(lista)-1):
+        for j in range(i+1, len(lista)):
+            res.append((lista[i], lista[j]))
+
+    return res
+
+## Ejercicio 10
+
+def reordenar_cola_priorizando_vips(filaClientes: Cola[tuple[str, str]]) -> Cola[str]:
+    res: Cola[str] = Cola()
+    vips: Cola[str] = Cola()
+    comunes: Cola[str] = Cola()
+
+    while not filaClientes.empty():
+        cliente = filaClientes.get()
+        if cliente[1] == 'vip':
+            vips.put(cliente[0])
+        else:
+            comunes.put(cliente[0])
+
+    while not vips.empty():
+        res.put(vips.get())
+
+    while not comunes.empty():
+        res.put(comunes.get())
+
+    return res
+
+## Ejercicio 11
+
+def cuantos_sufijos_son_palindromos(texto: str) -> int:
+    res: int = 0
+    sufijos: list[str] = obtener_sufijos(texto)
+    
+    for sufijo in sufijos:
+        res += uno_si_cero_si_no(es_palindromo(sufijo))
+
+    return res
+
+def uno_si_cero_si_no(cond: bool) -> int:
+    return 1 if cond else 0
+
+def obtener_sufijos(texto: str) -> list[str]:
+    res: list[str] = []
+    
+    for i in range(len(texto)):
+        acumulada = ""
+        for j in range(i, len(texto)):
+            acumulada += texto[j]
+
+        res.append(acumulada)
+
+    return res
+
+def es_palindromo(texto: str) -> bool:
+    res: bool = True
+    for i in range(len(texto)//2):
+        if texto[i] != texto[len(texto)-1-i]:
+            res = False
+
+    return res
+
+## Ejercicio 12
+
+def quien_gano_el_tateti_facilito(tablero: list[list[str]]) -> int:
+    res: int
+    tres_x: int = 0
+    tres_o: int = 0
+
+    for columna in obtener_columnas(tablero):
+        tres_x += uno_si_cero_si_no(hay_consecutivos_en_lista(columna, "X", 3))
+        tres_o += uno_si_cero_si_no(hay_consecutivos_en_lista(columna, "O", 3))
+
+    if tres_x > 0 and tres_o == 0:
+        res = 1
+    elif tres_x == 0 and tres_o > 0:
+        res = 2
+    elif tres_x == 0 and tres_o == 0:
+        res = 0
+    elif tres_x > 0 and tres_o > 0:
+        res = 3
+
+    return res
+
+def obtener_columnas(lista: list[list[T]]) -> list[list[T]]:
+    res: list[list[T]] = []
+    for col in range(len(lista[0])):
+        columna = []
+        for row in range(len(lista)):
+            columna.append(lista[row][col])
+
+        res.append(columna)
+
+    return res
+
+def hay_consecutivos_en_lista(lista: list[str], c: str, n: int) -> bool:
+    """Devuelve True si *c* aparece *n* veces seguidas en *lista*, sino False"""
+    i = 0
+    contador = 0
+    while i < len(lista) and contador < n:
+        if lista[i] == c:
+            contador += 1
+        else:
+            contador = 0
+        i += 1
+
+    return contador == n
+    
