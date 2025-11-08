@@ -380,3 +380,12 @@ def hay_consecutivos_en_lista(lista: list[str], c: str, n: int) -> bool:
 
     return contador == n
     
+## Ejercicio 13
+
+def orden_de_atencion(urgentes: Cola[int], postergables: Cola[int]) -> Cola[int]:
+    pass
+
+## Ejercicio 14
+
+def alarma_epidemiologica(registros: list[tuple[int, str]], infecciosas: list[str], umbral: float) -> dict[str, float]:
+    pass
