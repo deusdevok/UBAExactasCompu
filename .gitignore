@@ -39,3 +39,5 @@ Thumbs.db
 # Files and data sources
 *.csv
 *.parquet
+
+*.virtual_documents/
